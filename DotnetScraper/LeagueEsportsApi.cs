@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
@@ -25,6 +26,23 @@ namespace DotnetScraper
     public class MatchDetailsResponse
     {
         public List<GameIdMapping> GameIdMappings { get; set; }
+    }
+
+    public class Game
+    {
+        public int GameId { get; set; }
+        public string PlatformId { get; set; }
+        public DateTime GameCreation { get; set; }
+        public TimeSpan GameDuration { get; set; }
+        public int QueueId { get; set; }
+        public int MapId { get; set; }
+        public int SeasonId { get; set; }
+        public string GameVersion { get; set; }
+        public string GameMode { get; set; }
+        public string GameType { get; set; }
+        // Teams
+        // Participants
+        // ParticipantIdentities
     }
 
     public class LeagueEsportsApi
@@ -60,6 +78,14 @@ namespace DotnetScraper
             request.AddQueryParameter("tournamentId", tournamentId);
             request.AddQueryParameter("matchId", matchId);
             return await Execute<MatchDetailsResponse>("http://api.lolesports.com/api/v2/", request);
+        }
+
+        public async Task<Game> GetGames(string matchId, string matchHash)
+        {
+            //https://acs.leagueoflegends.com/v1/stats/game/TRLH1/{GAME_ID}?gameHash=GAME_HASH}
+            var request = new RestRequest($"stats/game/TRLH1/{matchId}");
+            request.AddQueryParameter("gameHash", matchHash);
+            return await Execute<Game>("https://acs.leagueoflegends.com/v1/", request);
         }
     }
 }
