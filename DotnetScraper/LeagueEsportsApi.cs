@@ -80,7 +80,7 @@ namespace DotnetScraper
             return await Execute<MatchDetailsResponse>("http://api.lolesports.com/api/v2/", request);
         }
 
-        public async Task<Game> GetGames(string matchId, string matchHash)
+        public async Task<Game> GetGame(string matchId, string matchHash)
         {
             //https://acs.leagueoflegends.com/v1/stats/game/TRLH1/{GAME_ID}?gameHash=GAME_HASH}
             var request = new RestRequest($"stats/game/TRLH1/{matchId}");
