@@ -1,50 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
 
 namespace DotnetScraper
 {
-    public class ScheduleItem
-    {
-        public string Match { get; set; }
-        public string Tournament { get; set; }
-    }
-
-    public class ScheduleItemsResponse
-    {
-        public List<ScheduleItem> ScheduleItems { get; set; }
-    }
-
-    public class GameIdMapping
-    {
-        public string Id { get; set; }
-        public string GameHash { get; set; }
-    }
-
-    public class MatchDetailsResponse
-    {
-        public List<GameIdMapping> GameIdMappings { get; set; }
-    }
-
-    public class Game
-    {
-        public int GameId { get; set; }
-        public string PlatformId { get; set; }
-        public DateTime GameCreation { get; set; }
-        public TimeSpan GameDuration { get; set; }
-        public int QueueId { get; set; }
-        public int MapId { get; set; }
-        public int SeasonId { get; set; }
-        public string GameVersion { get; set; }
-        public string GameMode { get; set; }
-        public string GameType { get; set; }
-        // Teams
-        // Participants
-        // ParticipantIdentities
-    }
-
     public class LeagueEsportsApi
     {
         private static async Task<T> Execute<T>(string baseUrl, IRestRequest request)
