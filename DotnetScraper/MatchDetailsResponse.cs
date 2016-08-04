@@ -4,6 +4,6 @@ namespace DotnetScraper
 {
     public class MatchDetailsResponse
     {
-        public List<GameIdMapping> GameIdMappings { get; set; }
+        public List<GameIdMappingResponse> GameIdMappings { get; set; }
     }
 }

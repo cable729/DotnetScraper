@@ -25,10 +25,15 @@ namespace DotnetScraper
 
             var result = await api.GetScheduleItems(2);
 
-            result.ScheduleItems
-                .Select(s => $"{s.Match}, {s.Tournament}")
-                .ToList()
-                .ForEach(_testOutputHelper.WriteLine);
+            using (var context = new LolEsportsContext())
+            {
+                foreach (var item in result.ScheduleItems)
+                {
+                    if (!context.ScheduleItems.Any(i => i.RiotGivenId == item.Id))
+                        context.ScheduleItems.Add(ScheduleItem.FromResponse(item));
+                }
+                context.SaveChanges();
+            }
         }
 
         [Fact]
@@ -36,24 +41,24 @@ namespace DotnetScraper
         {
             var api = new LeagueEsportsApi();
 
-            var scheduleItems = await api.GetScheduleItems(2);
-            var sb = new StringBuilder();
-            foreach (var item in scheduleItems.ScheduleItems.Where(s => s.Match != null && s.Tournament != null))
+            using (var context = new LolEsportsContext())
             {
-                var matches = await api.GetMatches(item.Tournament, item.Match);
-                if (matches?.GameIdMappings == null)
+                foreach (var item in context.ScheduleItems.Where(s => s.Match != null && s.Tournament != null))
                 {
-                    //_testOutputHelper.WriteLine($"No matches found for match {item.Match} and tournament {item.Tournament}");
-                    continue;
-                } 
-                matches.GameIdMappings
-                    .Select(g => $"{g?.Id}, {g?.GameHash}")
-                    .ToList()
-                    .ForEach(_testOutputHelper.WriteLine);
+                    var matches = await api.GetMatches(item.Tournament, item.Match);
+                    if (matches?.GameIdMappings == null) continue;
+                    foreach (var gameIdMapping in matches.GameIdMappings)
+                    {
+                        if (!context.GameIdMappings.Any(
+                            g => g.GameId == gameIdMapping.Id && g.GameHash == gameIdMapping.GameHash))
+                            context.GameIdMappings.Add(GameIdMapping.FromResponse(gameIdMapping));
+                    }
+                }
+                context.SaveChanges();
             }
         }
 
-        private async Task<IList<GameIdMapping>> GetGameIdMappings()
+        private async Task<IList<GameIdMappingResponse>> GetGameIdMappings()
         {
             var api = new LeagueEsportsApi();
 
@@ -61,7 +66,7 @@ namespace DotnetScraper
             var scheduleItemsWithGames = scheduleItems.ScheduleItems
                 .Where(s => s.Match != null && s.Tournament != null);
 
-            var gameMappings = new List<GameIdMapping>();
+            var gameMappings = new List<GameIdMappingResponse>();
             foreach (var item in scheduleItemsWithGames)
             {
                 var matches = await api.GetMatches(item.Tournament, item.Match);

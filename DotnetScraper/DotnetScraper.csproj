@@ -63,14 +63,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
-    <Compile Include="GameIdMapping.cs" />
+    <Compile Include="GameIdMappingResponse.cs" />
     <Compile Include="LeagueEsportsApi.cs" />
     <Compile Include="LeagueEsportsApiTests.cs" />
     <Compile Include="LolEsportsContext.cs" />
     <Compile Include="MatchDetailsResponse.cs" />
+    <Compile Include="Migrations\201608040155283_Initial.cs" />
+    <Compile Include="Migrations\201608040155283_Initial.Designer.cs">
+      <DependentUpon>201608040155283_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608040206207_AddGameIdMappings.cs" />
+    <Compile Include="Migrations\201608040206207_AddGameIdMappings.Designer.cs">
+      <DependentUpon>201608040206207_AddGameIdMappings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PersistentObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleItem.cs" />
+    <Compile Include="ScheduleItemResponse.cs" />
     <Compile Include="ScheduleItemsResponse.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +88,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201608040155283_Initial.resx">
+      <DependentUpon>201608040155283_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608040206207_AddGameIdMappings.resx">
+      <DependentUpon>201608040206207_AddGameIdMappings.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,6 +4,6 @@ namespace DotnetScraper
 {
     public class ScheduleItemsResponse
     {
-        public List<ScheduleItem> ScheduleItems { get; set; }
+        public List<ScheduleItemResponse> ScheduleItems { get; set; }
     }
 }
