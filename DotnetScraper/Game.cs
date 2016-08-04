@@ -2,7 +2,7 @@
 
 namespace DotnetScraper
 {
-    public class Game
+    public class Game : PersistentObject
     {
         public int GameId { get; set; }
         public string PlatformId { get; set; }

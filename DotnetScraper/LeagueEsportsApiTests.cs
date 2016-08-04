@@ -92,5 +92,14 @@ namespace DotnetScraper
             Console.Write(str);
             Console.WriteLine("done");
         }
+
+        [Fact]
+        public void TestSelectFromDatabase()
+        {
+            using (var context = new LolEsportsContext())
+            {
+                var scheduleItems = context.ScheduleItems.ToList();
+            }
+        }
     }
 }
